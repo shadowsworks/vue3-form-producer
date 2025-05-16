@@ -1,0 +1,97 @@
+{
+  "name": "vue3-form-producer",
+  "version": "0.2.1",
+  "update": "2025-05-16",
+  "private": false,
+  "description": "業務アプリケーションに必要とされるフォームの作成から、フォームを使った入力画面、データ表示画面までをJSONデータで連携し、Vue.js / Bootstrap-Vue-Next でのフロントエンド開発におけるフォーム開発の生産性を飛躍的に向上するコンポーネントです。",
+  "main": "dist/vue3-form-producer.umd.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shadowsworks/vue3-form-producer"
+  },
+  "license": "MIT",
+  "author": "shadowsworks",
+  "homepage": "https://vue3-form-producer.shadows-works.com/",
+  "files": [
+    "dist/*",
+    "src/components/editor/*.vue",
+    "src/components/inputter/*.vue",
+    "src/components/lib/*.js",
+    "src/components/parts/*.vue",
+    "src/components/vewer/*.vue",
+    "src/build-entry.js"
+  ],
+  "keywords": [
+    "Vue",
+    "Vue3",
+    "Vue.js",
+    "BootstrapVue",
+    "BootstrapVueNext",
+    "VueFormProducer",
+    "vue-form-producer",
+    "Vue3FormProducer",
+    "vue3-form-producer",
+    "Form",
+    "フォーム",
+    "Make Form",
+    "フォーム作成",
+    "フォーム定義"
+  ],
+  "scripts": {
+    "serve": "vue-cli-service serve --mode dev",
+    "build": "vue-cli-service build --mode stg",
+    "release": "vue-cli-service build --mode prod",
+    "lint": "vue-cli-service lint",
+    "build-bundle": "npm --no-git-tag-version version patch; vue-cli-service build --target lib --name vue3-form-producer --formats umd-min ./src/build-entry.js"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-regular-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/vue-fontawesome": "^3.0.8",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "bootstrap-vue-next": "^0.26.20",
+    "core-js": "^3.8.3",
+    "github-markdown-css": "^5.8.1",
+    "lodash": "^4.17.21",
+    "markdown-it": "^14.1.0",
+    "moment-timezone": "^0.5.46",
+    "uuid": "^11.0.5",
+    "validator": "^13.12.0",
+    "vue": "^3.2.13",
+    "vue-router": "^4.5.0",
+    "vuex": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}

@@ -1,0 +1,230 @@
+[
+  {
+    "item_type": "type_label",
+    "item_uuid": "e9f3ddcd-1e54-4561-be6d-3884054f1ce6",
+    "item_sequence": 0,
+    "item_key": "",
+    "item_condition_key": "",
+    "item_condition_value": "",
+    "item_label": "# イベント後アンケート\n本日はイベントにご参加いただき誠にありがとうございます。  \nイベントにつきまして、率直なご意見をお聞かせいただければと思います。  \n設問数：9問  \n所要時間：約10分",
+    "item_markdown_selected": true,
+    "item_show_selected": false
+  },
+  {
+    "item_type": "type_short_text",
+    "item_uuid": "31d8374c-2d9b-4864-a6ac-dfd4cc360242",
+    "item_sequence": 1,
+    "item_name": "会社名",
+    "item_placeholder": "会社名",
+    "item_description": "",
+    "item_key": "",
+    "item_condition_key": "",
+    "item_condition_value": "",
+    "item_required_selected": true,
+    "item_required_badge": true,
+    "item_max_length": 32,
+    "item_allowed_type": "All"
+  },
+  {
+    "item_type": "type_short_text",
+    "item_uuid": "577c6431-f674-40c9-8136-a48b799aaa1a",
+    "item_sequence": 2,
+    "item_name": "部署名",
+    "item_placeholder": "部署名",
+    "item_description": "",
+    "item_key": "",
+    "item_condition_key": "",
+    "item_condition_value": "",
+    "item_required_selected": true,
+    "item_required_badge": true,
+    "item_max_length": 32,
+    "item_allowed_type": "All"
+  },
+  {
+    "item_type": "type_single_select",
+    "item_uuid": "f3d11867-8978-4353-a3e9-bd3a9984a769",
+    "item_sequence": 3,
+    "item_name": "性別",
+    "item_description": "",
+    "item_key": "",
+    "item_condition_key": "",
+    "item_condition_value": "",
+    "item_required_selected": true,
+    "item_required_badge": true,
+    "item_line_selected": false,
+    "item_choice_columns": [
+      {
+        "text": "男性",
+        "value": "男性"
+      },
+      {
+        "text": "女性",
+        "value": "女性"
+      }
+    ],
+    "item_choiced_value": "男性"
+  },
+  {
+    "item_type": "type_numeric",
+    "item_uuid": "92e5ed43-450f-4077-a988-f3fec0c0a9f6",
+    "item_sequence": 4,
+    "item_name": "年齢",
+    "item_placeholder": "",
+    "item_description": "",
+    "item_key": "",
+    "item_condition_key": "",
+    "item_condition_value": "",
+    "item_required_selected": true,
+    "item_required_badge": true,
+    "item_min_number": 1,
+    "item_max_number": 100,
+    "item_init_number": 20,
+    "item_unit": "歳"
+  },
+  {
+    "item_type": "type_mail_address",
+    "item_uuid": "97d7b3d2-ff19-429c-99de-9564698f2886",
+    "item_sequence": 5,
+    "item_name": "メールアドレス",
+    "item_placeholder": "example@mail.com",
+    "item_description": "",
+    "item_key": "",
+    "item_condition_key": "",
+    "item_condition_value": "",
+    "item_required_selected": true,
+    "item_required_badge": true,
+    "item_mail_address_selected": false
+  },
+  {
+    "item_type": "type_multi_select",
+    "item_uuid": "0cf5b722-3b8e-4ba0-848d-d972353b5b58",
+    "item_sequence": 6,
+    "item_name": "こちらのイベントを知ったきっかけを教えてください。",
+    "item_description": "",
+    "item_key": "event",
+    "item_condition_key": "",
+    "item_condition_value": "",
+    "item_required_selected": true,
+    "item_required_badge": true,
+    "item_line_selected": true,
+    "item_choice_columns": [
+      {
+        "text": "テレビ",
+        "value": "tv"
+      },
+      {
+        "text": "ラジオ",
+        "value": "radio"
+      },
+      {
+        "text": "新聞",
+        "value": "paper"
+      },
+      {
+        "text": "Webメディア",
+        "value": "web"
+      },
+      {
+        "text": "メルマガ",
+        "value": "mail"
+      },
+      {
+        "text": "SNS・ブログ",
+        "value": "sns"
+      },
+      {
+        "text": "その他",
+        "value": "etc"
+      }
+    ]
+  },
+  {
+    "item_type": "type_short_text",
+    "item_uuid": "9dd2eab7-bb10-4282-a087-85cadb15cf2a",
+    "item_sequence": 7,
+    "item_name": "その他の詳細",
+    "item_placeholder": "",
+    "item_description": "",
+    "item_key": "",
+    "item_condition_key": "event",
+    "item_condition_value": "etc",
+    "item_required_selected": false,
+    "item_required_badge": false,
+    "item_max_length": 32,
+    "item_allowed_type": "All"
+  },
+  {
+    "item_type": "type_pulldown",
+    "item_uuid": "4067f37f-6555-42ca-b646-4b4eaee3d793",
+    "item_sequence": 8,
+    "item_name": "あなたがイベントに参加した理由に最も近いものを選んでください。",
+    "item_description": "",
+    "item_key": "",
+    "item_condition_key": "",
+    "item_condition_value": "",
+    "item_required_selected": true,
+    "item_required_badge": true,
+    "item_choice_columns": [
+      {
+        "text": "テーマに興味があったから",
+        "value": "テーマに興味があったから"
+      },
+      {
+        "text": "ゲストに興味があったから",
+        "value": "ゲストに興味があったから"
+      },
+      {
+        "text": "イベント開催企業に興味があったから",
+        "value": "イベント開催企業に興味があったから"
+      },
+      {
+        "text": "知人・友人に誘われた",
+        "value": "知人・友人に誘われた"
+      },
+      {
+        "text": "ゲストが知人・友人である",
+        "value": "ゲストが知人・友人である"
+      }
+    ],
+    "item_choiced_value": "テーマに興味があったから"
+  },
+  {
+    "item_type": "type_single_select",
+    "item_uuid": "e6c10e6f-b80e-44d4-ba94-63908636af12",
+    "item_sequence": 9,
+    "item_name": "今後のイベント案内を希望しますか。",
+    "item_description": "",
+    "item_key": "",
+    "item_condition_key": "",
+    "item_condition_value": "",
+    "item_required_selected": true,
+    "item_required_badge": true,
+    "item_line_selected": false,
+    "item_choice_columns": [
+      {
+        "text": "希望する",
+        "value": "希望する"
+      },
+      {
+        "text": "希望しない",
+        "value": "希望しない"
+      }
+    ],
+    "item_choiced_value": "希望する"
+  },
+  {
+    "item_type": "type_long_text",
+    "item_uuid": "94f8782c-8b9c-4f04-8bdd-4ab44d5c0994",
+    "item_sequence": 10,
+    "item_name": "イベントに対するご意見・ご感想をご自由にご記入ください。",
+    "item_placeholder": "",
+    "item_description": "",
+    "item_key": "",
+    "item_condition_key": "",
+    "item_condition_value": "",
+    "item_required_selected": false,
+    "item_required_badge": false,
+    "item_max_length": 256,
+    "item_number_of_rows": 3
+  }
+]
