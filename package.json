@@ -1,6 +1,6 @@
 {
   "name": "vue3-form-producer",
-  "version": "0.2.2",
+  "version": "0.3.2",
   "update": "2025-05-23",
   "private": false,
   "description": "業務アプリケーションに必要とされるフォームの作成から、フォームを使った入力画面、データ表示画面までをJSONデータで連携し、Vue.js / Bootstrap-Vue-Next でのフロントエンド開発におけるフォーム開発の生産性を飛躍的に向上するコンポーネントです。",
@@ -11,7 +11,7 @@
   },
   "license": "MIT",
   "author": "shadowsworks",
-  "homepage": "https://vue3-form-producer.shadows-works.com/",
+  "homepage": "https://vue3-form-producer-demo.shadows-works.com/",
   "files": [
     "dist/*",
     "src/components/editor/*.vue",
