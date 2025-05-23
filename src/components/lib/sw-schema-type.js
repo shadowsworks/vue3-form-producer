@@ -120,7 +120,7 @@ const schema = {
         "item_key": "",
         "item_condition_key": "",
         "item_condition_value": "",
-        "item_required_selected": true,
+        "item_required_selected": false,
         "item_required_badge": false,
         "item_on_value": "ON",
         "item_off_value": "OFF"
@@ -207,6 +207,7 @@ const schema = {
         "item_required_badge": false,
         "item_min_characters": 8,
         "item_character_type_selected": ["Lowercase", "Uppercase", "Numeric"],
+        "item_password_hash_selected": true,
         "item_password_view_selected": true
     },
     "-- 氏名 --": "-- 氏名 --",

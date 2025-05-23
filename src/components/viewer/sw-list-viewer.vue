@@ -2,10 +2,7 @@
 <div class="item-viewer">
     <div v-if="rf_debug">sw-list-viewer: {{ JSON.stringify(props.data_list,null,2) }} </div>
     <b-table selectable responsive striped hover bordered :items="list_items" :fields="list_fields" select-mode="single" ref="sw_list_table">
-        <template #head()="head">
-            <span class="text-nowrap">{{ head.label }}</span>
-        </template>
-        <template #cell()="data">
+       <template #cell()="data">
             <template v-if="is_picture(data.value)" >
                 <b-img :src="get_picture(data.value)" width="100" height="auto"></b-img>
             </template> 
@@ -36,13 +33,13 @@ const props = defineProps({
     data_list: {
         type: Array,
         required: true,
-        default: null,
+        default: () => [],
     },
     // 表示しない列 uuid or key を指定
     exclude_columns: {
         type: Array,
         required: true,
-        default: null,
+        default: () => [],
     }
 });
 // -----------------------------------------------
@@ -73,25 +70,29 @@ const sw_list_table = ref()
 // コンポーネントがマウントされる直前に呼び出されるフックを登録します。
 // -----------------------------------------------
 onBeforeMount(() => {
-    sorted_data_info = props.data_list[0]
-    //console.log("sw-form-viewer:onBeforeMount:sorted_data_info="+sorted_data_info)
-    if( sorted_data_info !== undefined ){
-        sorted_data_info.sort((a,b) => a.sequence - b.sequence)
-    }
-    // Header
-    for( let i=0;i<sorted_data_info.length;i++ ){
-        if( !exclude_column( sorted_data_info[i]) ){
-            let field = set_header(sorted_data_info[i])
-            if( Object.keys(field).length !== 0 ){
-                list_fields.push(field)
+    if( props.data_list !== null ){
+        if( props.data_list.length > 0 ){
+            sorted_data_info = props.data_list[0]
+            //console.log("sw-form-viewer:onBeforeMount:sorted_data_info="+sorted_data_info)
+            if( sorted_data_info !== undefined ){
+                sorted_data_info.sort((a,b) => a.sequence - b.sequence)
+            }
+            // Header
+            for( let i=0;i<sorted_data_info.length;i++ ){
+                if( !exclude_column( sorted_data_info[i]) ){
+                    let field = set_header(sorted_data_info[i])
+                    if( Object.keys(field).length !== 0 ){
+                        list_fields.push(field)
+                    }
+                }
+            }
+            // Body
+            for( let j=0;j<props.data_list.length;j++ ){
+                let item = set_body(props.data_list[j])
+                //console.log(JSON.stringify(item))
+                list_items.push(item)
             }
         }
-    }
-    // Body
-    for( let j=0;j<props.data_list.length;j++ ){
-        let item = set_body(props.data_list[j])
-        //console.log(JSON.stringify(item))
-        list_items.push(item)
     }
 })
 
@@ -131,7 +132,8 @@ const set_header = (data_info) => {
     if( data_info.type == "type_short_text" ){
         field.key = data_info.uuid
         field.label = data_info.name
-        //field.sortable = true
+        field.sortable = true
+        field.thClass = "text-nowrap"
     //長いテキスト
     } else if( data_info.type == "type_long_text" ){
         field.key = data_info.uuid
@@ -143,13 +145,15 @@ const set_header = (data_info) => {
         if( data_info.unit !== "" ){
             field.label += "("+data_info.unit+")"
         }
-        field.class = "text-end"
-        //field.sortable = true
+        field.thClass = "text-start text-nowrap"
+        field.tdClass = "text-end"
+        field.sortable = true
     //単一選択
     } else if( data_info.type == "type_single_select" ){
         field.key = data_info.uuid
         field.label = data_info.name
-        //field.sortable = true
+        field.sortable = true
+        field.thClass = "text-nowrap"
     //複数選択
     } else if( data_info.type == "type_multi_select" ){
         field.key = data_info.uuid
@@ -158,22 +162,26 @@ const set_header = (data_info) => {
     } else if( data_info.type == "type_switch" ){
         field.key = data_info.uuid
         field.label = data_info.name
-        //field.sortable = true
+        field.sortable = true
+        field.thClass = "text-nowrap"
     //日付
     } else if( data_info.type == "type_date" ){
         field.key = data_info.uuid
         field.label = data_info.name
-        //field.sortable = true
+        field.sortable = true
+        field.thClass = "text-nowrap"
     //時刻
     } else if( data_info.type == "type_time" ){
         field.key = data_info.uuid
         field.label = data_info.name
-        //field.sortable = true
+        field.sortable = true
+        field.thClass = "text-nowrap"
     //日時
     } else if( data_info.type == "type_datetime" ){
         field.key = data_info.uuid
         field.label = data_info.name
-        //field.sortable = true
+        field.sortable = true
+        field.thClass = "text-nowrap"
     //写真
     } else if( data_info.type == "type_picture" ){
         field.key = data_info.uuid
@@ -186,27 +194,32 @@ const set_header = (data_info) => {
     } else if( data_info.type == "type_full_name" ){
         field.key = data_info.uuid
         field.label = data_info.name.join(" ")
-        //field.sortable = true
+        field.sortable = true
+        field.thClass = "text-nowrap"
     //電話番号
     } else if( data_info.type == "type_phone_number" ){
         field.key = data_info.uuid
         field.label = data_info.name
-        //field.sortable = true
+        field.sortable = true
+        field.thClass = "text-nowrap"
     //メールアドレス
     } else if( data_info.type == "type_mail_address" ){
         field.key = data_info.uuid
         field.label = data_info.name
-        //field.sortable = true
+        field.sortable = true
+        field.thClass = "text-nowrap"
     //プルダウン
     } else if( data_info.type == "type_pulldown" ){
         field.key = data_info.uuid
         field.label = data_info.name
-        //field.sortable = true
+        field.sortable = true
+        field.thClass = "text-nowrap"
     //URL
     } else if( data_info.type == "type_url" ){
         field.key = data_info.uuid
         field.label = data_info.name
-        //field.sortable = true
+        field.sortable = true
+        field.thClass = "text-nowrap"
     //マークダウン
     } else if( data_info.type == "type_markdown" ){
         field.key = data_info.uuid
@@ -249,10 +262,10 @@ const set_body = (data_info) => {
                 item[data_info[i].uuid].data = data_info[i].value
             //単一選択
             } else if( data_info[i].type == "type_single_select" ){
-                item[data_info[i].uuid].data = data_info[i].value
+                item[data_info[i].uuid].data = data_info[i].text
             //複数選択
             } else if( data_info[i].type == "type_multi_select" ){
-                item[data_info[i].uuid].data = data_info[i].value.join(" ")
+                item[data_info[i].uuid].data = data_info[i].text.join(" ")
             //スイッチ
             } else if( data_info[i].type == "type_switch" ){
                 item[data_info[i].uuid].data = data_info[i].value
@@ -282,7 +295,7 @@ const set_body = (data_info) => {
                 item[data_info[i].uuid].data = data_info[i].value
             //プルダウン
             } else if( data_info[i].type == "type_pulldown" ){
-                item[data_info[i].uuid].data = data_info[i].value
+                item[data_info[i].uuid].data = data_info[i].text
             //URL
             } else if( data_info[i].type == "type_url" ){
                 item[data_info[i].uuid].data = data_info[i].value
@@ -372,6 +385,7 @@ const get_file_name = (value) => {
     }
     return "";
 }
+
 // -----------------------------------------------
 // パブリック関数
 // -----------------------------------------------

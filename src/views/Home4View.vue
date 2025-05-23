@@ -18,7 +18,7 @@
   <b-container fluid class="mt-2">
     <div class="home">
       <sw-list-viewer ref="sw_list_viewer"
-          :data_info="local_view_template"
+          :data_list="local_view_template"
           :exclude_columns="local_exclude_columns"
       />
     </div>
@@ -64,6 +64,10 @@ let local_exclude_columns = []
 local_exclude_columns.push("8fc84646-a4da-4adb-b1ea-e86351aabb5c")
 local_exclude_columns.push("a15e91a3-64c3-4955-9a14-789d0d5d6cf3")
 local_exclude_columns.push("d56ed66f-157f-4d8e-a747-07df667c6d1a")
+local_exclude_columns.push("e63fa5a0-b3d0-4977-91d7-fe97e76f531e")
+local_exclude_columns.push("1331349d-f366-4e4c-bc0b-7eacb357edd2")
+local_exclude_columns.push("d791f678-b571-4ea7-ab04-2e330cfb6e7c")
+local_exclude_columns.push("e2271bfd-dbe5-40c6-b996-5c516e97644b")
 local_exclude_columns.push("switch")
 
 const sw_list_viewer = ref();

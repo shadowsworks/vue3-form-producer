@@ -29,7 +29,7 @@ const props = defineProps({
     data_info: {
         type: Array,
         required: false,
-        deafult: [],
+        default: () => [],
     },
     view_mode : {
         type: String,
@@ -76,7 +76,7 @@ let sorted_data_info = []
 onBeforeMount(() => {
     sorted_data_info = props.data_info
     //console.log("sw-form-viewer:onBeforeMount:sorted_data_info="+sorted_data_info)
-    if( sorted_data_info !== undefined ){
+    if( sorted_data_info !== null ){
         sorted_data_info.sort((a,b) => a.sequence - b.sequence)
     }
 })
@@ -85,7 +85,7 @@ onBeforeMount(() => {
 // -----------------------------------------------
 onMounted(() => {
     //console.log("sw-form-viewer:onMounted:sorted_data_info="+sorted_data_info)
-    if( sorted_data_info !== undefined ){
+    if( sorted_data_info !== null ){
         sorted_data_info.sort((a,b) => a.sequence - b.sequence)
     }
 })

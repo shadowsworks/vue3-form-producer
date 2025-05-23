@@ -1,5 +1,5 @@
 <script setup >
-import { ref,watch,onBeforeMount,defineModel,defineProps } from 'vue';
+import { ref,watch,computed,onBeforeMount,defineModel,defineProps } from 'vue';
 import { BFormCheckbox,BBadge } from "bootstrap-vue-next";
 //import validator from 'validator';
 import SwLanguage from '../lib/sw-language.js'
@@ -9,9 +9,9 @@ const { get_language } = SwLanguage()
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: true })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // 選択値
-const dm_selected = defineModel("selected",{ default: "" })
+const dm_selected = defineModel("selected",{ type: String, default: "" })
 
 // -----------------------------------------------
 // 親コンポーネントから子コンポーネントへデータを受け渡す
@@ -21,6 +21,12 @@ const props = defineProps({
     item_subject: {
         type: String,
         required: true,
+    },
+    // 説明
+    item_placeholder: {
+        type: String,
+        required: false,
+        default: "",
     },
     // 補足説明
     item_description: {
@@ -57,16 +63,24 @@ const props = defineProps({
 // -----------------------------------------------
 // ローカル変数
 // -----------------------------------------------
+// デバッグ用
+const rf_debug = ref(false)
 // ブラウザからデフォルトの言語を取得する
 let locale = navigator.language;
 if( locale != "ja" && locale != "en" ) locale = "en";
 const rf_selected = ref(false)
-dm_result.value = true;
+//dm_result.value = true;
 
 // -----------------------------------------------
 // 既定計算
 // -----------------------------------------------
-// const state_xxxxx = computed(() => { return true or false; });
+// 入力監視
+const state_input = computed(() => {
+    let ret = required();
+    //console.log("state_input:"+ret)
+    ret = result_update(ret);
+    return ret;
+});
 // -----------------------------------------------
 // 監視
 // -----------------------------------------------
@@ -74,10 +88,10 @@ watch([ rf_selected ], () => {
         watch_task()
         setTimeout(() => {
             watch_task()
-        }, 500);
+        }, 100);
         setTimeout(() => {
             watch_task()
-        }, 1000);
+        }, 200);
 })
 // -----------------------------------------------
 // コンポーネントがマウントされる直前に呼び出されるフックを登録します。
@@ -113,6 +127,25 @@ onBeforeMount(() => {
 // -----------------------------------------------
 // ローカル関数
 // -----------------------------------------------
+const required = () => {
+    if( props.item_required ){
+        if( dm_selected.value == props.item_on_value ){
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return null;
+    }
+}
+const result_update = (ret) => {
+    if( ret || ret == null ){
+        dm_result.value = true;
+    } else {
+        dm_result.value = false;
+    }
+    return ret;
+}
 // 監視で使用する
 const watch_task = () => {
     if( rf_selected.value ){
@@ -126,12 +159,13 @@ const watch_task = () => {
 <template>
 <div class="item-editor">
     <!-- Text -->
-    <label class="text-secondary mt-0 mb-0 small" >{{ props.item_subject }}</label>
+    <label class="text-black mt-0 mb-0 small" >{{ props.item_subject }}</label>
     <template v-if='props.item_required && props.item_required_badge'>
         <b-badge variant="danger" class="mt-0 mb-0 ms-1">{{ get_language(locale,"selected_mandatory") }}</b-badge>
     </template>
-    <b-form-checkbox v-model="rf_selected" switch></b-form-checkbox>
-    <label v-if='props.item_description!==""' class="text-secondary mt-1 mb-0 ms-1 small">{{ props.item_description }}</label>          
+    <b-form-checkbox v-model="rf_selected" switch :state="state_input">{{ props.item_placeholder }}</b-form-checkbox>
+    <label v-if='props.item_description!==""' class="text-secondary mt-1 mb-0 ms-1 small">{{ props.item_description }}</label>
+    <div v-if="rf_debug">item_placeholder:{{props.item_placeholder}}</div>        
 </div>
 </template>
 

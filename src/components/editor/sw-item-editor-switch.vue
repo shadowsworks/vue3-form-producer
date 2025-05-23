@@ -3,6 +3,9 @@
     <!-- 項目名 -->
     <sw-item-parts-text v-model:text="rf_item_name" v-model:result="rf_item_name_result" item_required
         :item_subject='get_language(locale,"subject_item_name")' :item_placeholder='get_language(locale,"placeholder_item_name")' />
+    <!-- 説明 -->
+    <sw-item-parts-text v-model:text="rf_item_placeholder" v-model:result="rf_item_placeholder_result"
+        :item_subject='get_language(locale,"subject_placeholder")' :item_placeholder='get_language(locale,"placeholder_placeholder")' />
     <!-- 補足説明 -->
     <sw-item-parts-text v-model:text="rf_item_description" v-model:result="rf_item_description_result"
         :item_subject='get_language(locale,"subject_description")' :item_placeholder='get_language(locale,"placeholder_description")'/>
@@ -47,14 +50,18 @@ import SwItemPartsRadioCheck from "../parts/sw-item-parts-radio-check.vue"
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: false })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // この項目のフォーム情報
-const dm_item_form_info = defineModel("item_form_info",{ default: {} })
+const dm_item_form_info = defineModel("item_form_info",{ type: Object, default: () => {} })
+//dm_item_form_info.value = {}
 // 条件付き表示の表示：true 非表示：false
-const dm_condition_visible = defineModel("condition_visible",{ default: false })
+const dm_condition_visible = defineModel("condition_visible",{ type: Boolean, default: false })
 // 項目名
 const rf_item_name = ref("")
 const rf_item_name_result = ref(false)
+// 説明
+const rf_item_placeholder = ref("")
+const rf_item_placeholder_result = ref(false)
 // 補足説明
 const rf_item_description = ref("")
 const rf_item_description_result = ref(false)
@@ -101,6 +108,7 @@ let locale = navigator.language;
 if( locale != "ja" && locale != "en" ) locale = "en";
 // 必須選択
 const local_required_select_columns = [
+    { text: get_language(locale,"selected_any"), value: false },
     { text: get_language(locale,"selected_mandatory"), value: true },
 ]
 // 条件付き表示
@@ -117,17 +125,17 @@ const local_allowed_type = ["AlphaNumericPlus","All"]
 // -----------------------------------------------
 // 監視
 // -----------------------------------------------
-watch([ rf_item_name,rf_item_description,rf_item_key,
+watch([ rf_item_name,rf_item_placeholder,rf_item_description,rf_item_key,
         rf_item_condition_key,rf_item_condition_value,rf_item_required_selected,rf_item_required_badge,
         rf_item_on_value,rf_item_off_value ], () => {
         //console.log("sw-item-editor-switch:watch:-------")
         watch_task()
         setTimeout(() => {
             watch_task()
-        }, 500);
+        }, 100);
         setTimeout(() => {
             watch_task()
-        }, 1000);
+        }, 200);
 })
 // -----------------------------------------------
 // コンポーネントがマウントされる直前に呼び出されるフックを登録します。
@@ -137,6 +145,7 @@ onBeforeMount(() => {
     //
     if( props.init_item_info !== null ){
         if( props.init_item_info.item_name !== undefined ){ rf_item_name.value = props.init_item_info.item_name; }
+        if( props.init_item_info.item_placeholder !== undefined ){ rf_item_placeholder.value = props.init_item_info.item_placeholder; }
         if( props.init_item_info.item_description !== undefined ){ rf_item_description.value = props.init_item_info.item_description; }
         if( props.init_item_info.item_key !== undefined ){ rf_item_key.value = props.init_item_info.item_key; }
         if( props.init_item_info.item_condition_key !== undefined ){ rf_item_condition_key.value = props.init_item_info.item_condition_key; }
@@ -210,6 +219,7 @@ const watch_task = () => {
 // 全てのフォーム入力が完了しているか判定する
 const is_result_value = () => {
     if( rf_item_name_result.value && 
+        rf_item_placeholder_result.value && 
         rf_item_description_result.value &&
         rf_item_key_result.value && 
         rf_item_condition_result.value && 
@@ -231,6 +241,7 @@ const get_form_data = () => {
     form_data.item_result = dm_result.value
     //
     form_data.item_name = rf_item_name.value
+    form_data.item_placeholder = rf_item_placeholder.value
     form_data.item_description = rf_item_description.value
     form_data.item_key = rf_item_key.value
     form_data.item_condition_key = rf_item_condition_key.value

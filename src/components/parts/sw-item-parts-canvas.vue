@@ -10,9 +10,9 @@ const { get_language } = SwLanguage()
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: false })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // 写真
-const dm_picture = defineModel("picture")
+const dm_picture = defineModel("picture",{ type: String, default: null })
 
 // -----------------------------------------------
 // 親コンポーネントから子コンポーネントへデータを受け渡す
@@ -234,7 +234,7 @@ const dragEnd = () => {
 <template>
 <div class="item-editor">
     <!-- Text -->
-    <label class="text-secondary mt-0 mb-0 small" >{{ props.item_subject }}</label>
+    <label class="text-black mt-0 mb-0 small" >{{ props.item_subject }}</label>
     <template v-if='props.item_required && props.item_required_badge'>
         <b-badge variant="danger" class="mt-0 mb-0 ms-1">{{ get_language(locale,"selected_mandatory") }}</b-badge>
     </template>

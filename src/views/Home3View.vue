@@ -45,6 +45,7 @@ const rf_state_side_menu = ref(false)
 // ローカル変数
 // -----------------------------------------------
 let local_view_template = ViewTemplate
+//let local_view_template = null
 
 // -----------------------------------------------
 // 既定計算

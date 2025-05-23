@@ -36,13 +36,14 @@ import SwItemPartsTextarea from "../parts/sw-item-parts-textarea.vue"
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: false })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // この項目のフォーム情報
-const dm_item_form_info = defineModel("item_form_info",{ default: {} })
+const dm_item_form_info = defineModel("item_form_info",{ type: Object, default: () => {} })
+//dm_item_form_info.value = {}
 // 条件付き表示の表示：true 非表示：false
-const dm_condition_visible = defineModel("condition_visible",{ default: false })
+const dm_condition_visible = defineModel("condition_visible",{ type: Boolean, default: false })
 // 項目キー
-const rf_item_key = defineModel("item_key",{ default: "" })
+const rf_item_key = defineModel("item_key",{ type: String, default: "" })
 const rf_item_key_result = ref(false)
 // 条件項目キー// 条件項目値
 const rf_item_condition_key = ref("")
@@ -112,10 +113,10 @@ watch([ rf_item_key,
         watch_task()
         setTimeout(() => {
             watch_task()
-        }, 500);
+        }, 100);
         setTimeout(() => {
             watch_task()
-        }, 1000);
+        }, 200);
 })
 // -----------------------------------------------
 // コンポーネントがマウントされる直前に呼び出されるフックを登録します。

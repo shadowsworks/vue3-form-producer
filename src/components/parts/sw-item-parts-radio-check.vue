@@ -6,11 +6,11 @@ import { BFormGroup,BFormRadioGroup,BFormCheckbox } from "bootstrap-vue-next";
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: false })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // 選択値
-const dm_selected = defineModel("selected_value",{ default: false })
+const dm_selected = defineModel("selected_value",{ type: Boolean, default: false })
 // 選択値
-const dm_checked = defineModel("checked",{ default: false })
+const dm_checked = defineModel("checked",{ type: Boolean, default: false })
 
 // -----------------------------------------------
 // 親コンポーネントから子コンポーネントへデータを受け渡す
@@ -96,7 +96,7 @@ onBeforeMount(() => {
 <template>
 <div class="item-editor">
     <!-- Text -->
-    <label class="text-secondary mt-0 mb-0 small" >{{ props.item_subject }}</label>
+    <label class="text-black mt-0 mb-0 small" >{{ props.item_subject }}</label>
     <div v-if="dm_selected" class="float-end mt-1">
         <br><b-form-checkbox v-model="dm_checked" :value=true
                             :unchecked-value=false>{{ props.item_check_name }}</b-form-checkbox>

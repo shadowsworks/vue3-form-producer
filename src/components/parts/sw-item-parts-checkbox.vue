@@ -9,10 +9,12 @@ const { get_language } = SwLanguage()
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: false })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // 選択値
-const dm_selected_value = defineModel("selected_value",{ default: [] })
-const dm_selected_text = defineModel("selected_text",{ default: [] })
+const dm_selected_value = defineModel("selected_value",{ type: Array, default: () => [] })
+//dm_selected_value.value = []
+const dm_selected_text = defineModel("selected_text",{ type: Array, default: () => [] })
+//dm_selected_text.value = []
 
 // -----------------------------------------------
 // 親コンポーネントから子コンポーネントへデータを受け渡す
@@ -134,7 +136,7 @@ const result_update = (ret) => {
 const update_value = (  ) => {
     setTimeout(() => {
         update_task()
-    }, 100);
+    }, 200);
 }
 const update_task = (  ) => {
     //console.log("dm_selected_value="+JSON.stringify(dm_selected_value.value))
@@ -154,7 +156,7 @@ const update_task = (  ) => {
 <template>
 <div class="item-editor">
     <!-- Text -->
-    <label class="text-secondary mt-0 mb-0 small" >{{ props.item_subject }}</label>
+    <label class="text-black mt-0 mb-0 small" >{{ props.item_subject }}</label>
     <template v-if='props.item_required && props.item_required_badge'>
         <b-badge variant="danger" class="mt-0 mb-0 ms-1">{{ get_language(locale,"selected_mandatory") }}</b-badge>
     </template>

@@ -1,27 +1,29 @@
 <template>
 <div class="form-inputter">
-    <div v-if="rf_debug">sw-form-inputter: {{ JSON.stringify(props.form_info,null,2) }} </div>
-    <template v-for="(item_info) in props.form_info" v-bind:key="item_info.item_uuid">
-        <div v-show="is_item_key(item_info,props.form_info)">
-          <sw-item-inputter
-            :item_info="item_info"
-            :demo_mode="props.demo_mode"
-            @input_item_value="input_item_value" 
-            v-model:custom="rf_custom_message"
-        />
+    <b-form>
+        <div v-if="rf_debug">sw-form-inputter: {{ JSON.stringify(sorted_form_info,null,2) }} </div>
+        <div :key="rf_render_key"></div>
+        <template v-for="(item_info) in sorted_form_info" v-bind:key="item_info.item_uuid">
+            <sw-item-inputter 
+                :item_info="item_info"
+                :demo_mode="props.demo_mode"
+                :view_mode="is_item_key(item_info,sorted_form_info)"
+                @input_item_value="input_item_value" 
+                v-model:custom="rf_custom_message"
+            />
+        </template>
+        <div v-if="!props.demo_mode" :key="rf_render_key">
+            <b-alert :model-value="!rf_result" variant="danger" class="m-2 py-2">
+                {{ get_language(locale,'blank_items_or_invalid_items') }}
+            </b-alert>
         </div>
-    </template>
-    <div v-if="!props.demo_mode">
-        <b-alert :model-value="!dm_result" variant="danger" class="m-2 py-2">
-            {{ get_language(locale,'blank_items_or_invalid_items') }}
-        </b-alert>
-    </div>
+    </b-form>
 </div>
 </template>
 
 <script setup >
-import { ref,defineModel,defineProps,defineExpose } from 'vue';
-import { BAlert } from "bootstrap-vue-next";
+import { ref,defineModel,defineProps,defineExpose,onBeforeMount } from 'vue';
+import { BForm,BAlert } from "bootstrap-vue-next";
 import SwLanguage from '../lib/sw-language.js'
 const { get_language } = SwLanguage()
 import SwItemInputter from "./sw-item-inputter.vue"
@@ -30,9 +32,10 @@ import SwItemInputter from "./sw-item-inputter.vue"
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: false })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // 入力データ
-const dm_value = defineModel("value",{ default: [] })
+const dm_value = defineModel("value",{ type: Array, default: () => [] })
+//dm_value.value = []
 
 // -----------------------------------------------
 // 親コンポーネントから子コンポーネントへデータを受け渡す
@@ -42,7 +45,7 @@ const props = defineProps({
     form_info: {
         type: Array,
         required: false,
-        deafult: [],
+        default: () => [],
     },
     demo_mode : {
         type: Boolean,
@@ -59,8 +62,11 @@ const rf_debug = ref(false)
 let locale = navigator.language;
 if( locale != "ja" && locale != "en" ) locale = "en";
 
+let sorted_form_info = []
+const rf_result = ref(false)
 const rf_custom_message = ref()
 rf_custom_message.value = {}
+const rf_render_key = ref(0)
 
 // -----------------------------------------------
 // 既定計算 computed(() => {})
@@ -75,7 +81,13 @@ rf_custom_message.value = {}
 // -----------------------------------------------
 // コンポーネントがマウントされる直前に呼び出されるフックを登録します。
 // -----------------------------------------------
-// onBeforeMount(() => {})
+onBeforeMount(() => {
+    sorted_form_info = props.form_info
+    //console.log("sw-form-viewer:onBeforeMount:sorted_form_info="+sorted_form_info)
+    if( sorted_form_info !== null ){
+        sorted_form_info.sort((a,b) => a.item_sequence - b.item_sequence)
+    }
+})
 // -----------------------------------------------
 // コンポーネントがマウントされた後に呼び出されるコールバックを登録します。
 // -----------------------------------------------
@@ -135,7 +147,7 @@ const is_item_key = (item_info,form_info) => {
 const input_item_value = (item_value) => {
     //console.log("sw-form-inputter:item_value="+JSON.stringify(item_value,null,1))
     update_input_item_value(item_value);
-    //rf_item_inputter_render_key.value = rf_item_inputter_render_key.value + 1;  //sw-item-editor の画面を更新する
+    rf_render_key.value = rf_render_key.value + 1;
 }
 const update_input_item_value = (item_value) => {
     let new_flag = true;
@@ -154,11 +166,12 @@ const update_input_item_value = (item_value) => {
         dm_value.value.push(item_value)
     }
     dm_result.value = result_flag
+    rf_result.value = result_flag
     // Clean Up
     for( let i=0;i<dm_value.value.length;i++ ){
         let clean_flag = true;
-        for( let j=0;j<props.form_info.length;j++ ){
-            if( dm_value.value[i].uuid == props.form_info[j].item_uuid ){
+        for( let j=0;j<sorted_form_info.length;j++ ){
+            if( dm_value.value[i].uuid == sorted_form_info[j].item_uuid ){
                 clean_flag = false;
             }
         }
@@ -207,7 +220,7 @@ const clear_message_by_item_key = (item_key) => {
 const get_file_info_by_item_key = (item_key) => {
     for( let i=0;i<dm_value.value.length;i++ ){
         if( dm_value.value[i].key == item_key ){
-            console.log("get_file_object_by_item_key="+JSON.stringify(dm_value.value[i]))
+            //console.log("get_file_object_by_item_key="+JSON.stringify(dm_value.value[i]))
             return dm_value.value[i].value;
         }
     }
@@ -216,7 +229,7 @@ const get_file_info_by_item_key = (item_key) => {
 const get_file_info_by_item_uuid = (item_uuid) => {
     for( let i=0;i<dm_value.value.length;i++ ){
         if( dm_value.value[i].uuid == item_uuid ){
-            console.log("get_file_object_by_item_uuid="+JSON.stringify(dm_value.value[i]))
+            //console.log("get_file_object_by_item_uuid="+JSON.stringify(dm_value.value[i]))
             return dm_value.value[i].value;
         }
     }

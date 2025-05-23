@@ -47,11 +47,12 @@ import SwItemPartsSelect from "../parts/sw-item-parts-select.vue"
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: false })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // この項目のフォーム情報
-const dm_item_form_info = defineModel("item_form_info",{ default: {} })
+const dm_item_form_info = defineModel("item_form_info",{ type: Object, default: () => {} })
+//dm_item_form_info.value = {}
 // 条件付き表示の表示：true 非表示：false
-const dm_condition_visible = defineModel("condition_visible",{ default: false })
+const dm_condition_visible = defineModel("condition_visible",{ type: Boolean, default: false })
 // 項目名
 const rf_item_name = ref("")
 const rf_item_name_result = ref(false)
@@ -132,14 +133,14 @@ const local_allowed_type = ["AlphaNumericPlus","All"]
 watch([ rf_item_name,rf_item_placeholder,rf_item_description,rf_item_key,
         rf_item_condition_key,rf_item_condition_value,rf_item_required_selected,rf_item_required_badge,
         rf_item_max_length,rf_item_allowed_type ], () => {
-        console.log("sw-item-editor-short-text:watch:-------")
+        //console.log("sw-item-editor-short-text:watch:-------")
         watch_task()
         setTimeout(() => {
             watch_task()
-        }, 500);
+        }, 100);
         setTimeout(() => {
             watch_task()
-        }, 1000);
+        }, 200);
 })
 // -----------------------------------------------
 // コンポーネントがマウントされる直前に呼び出されるフックを登録します。
@@ -253,7 +254,7 @@ const get_form_data = () => {
     //
     form_data.item_max_length = Number(rf_item_max_length.value)
     form_data.item_allowed_type = rf_item_allowed_type.value
-    console.log("sw-item-editor-short-text:get_form_data="+JSON.stringify(form_data))
+    //console.log("sw-item-editor-short-text:get_form_data="+JSON.stringify(form_data))
     return form_data
 }
 </script>

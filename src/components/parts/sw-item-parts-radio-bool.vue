@@ -114,7 +114,7 @@ onMounted(() => {
 <template>
 <div class="item-editor">
     <!-- Text -->
-    <label class="text-secondary mt-0 mb-0 small" >{{ props.item_subject }}</label>
+    <label class="text-black mt-0 mb-0 small" >{{ props.item_subject }}</label>
     <template v-if='props.item_required && props.item_required_badge'>
         <b-badge variant="danger" class="mt-0 mb-0 ms-1">{{ get_language(locale,"selected_mandatory") }}</b-badge>
     </template>

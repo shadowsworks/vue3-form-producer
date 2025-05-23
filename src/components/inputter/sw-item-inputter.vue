@@ -2,7 +2,7 @@
 <div class="item-inputter">
     <div v-if="rf_debug"> {{ JSON.stringify(props.item_info,null,2) }} </div>
     <!-- 短いテキスト -->
-    <template v-if='props.item_info.item_type=="type_short_text" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_short_text" && view_mode'>
         <sw-item-parts-text 
             v-model:result="rf_result"
             v-model:text="rf_text"
@@ -17,7 +17,7 @@
         />
     </template>
     <!-- 長いテキスト -->
-    <template v-if='props.item_info.item_type=="type_long_text" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_long_text" && view_mode'>
         <sw-item-parts-textarea 
             v-model:result="rf_result"
             v-model:text="rf_text"
@@ -31,7 +31,7 @@
         />
     </template>
     <!-- 数値 -->
-    <template v-if='props.item_info.item_type=="type_numeric" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_numeric" && view_mode'>
         <sw-item-parts-numeric 
             v-model:result="rf_result"
             v-model:number="rf_numeric"
@@ -47,7 +47,7 @@
         />
     </template>
     <!-- 単一選択 -->
-    <template v-if='props.item_info.item_type=="type_single_select" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_single_select" && view_mode'>
         <sw-item-parts-radio 
             v-model:result="rf_result"
             v-model:selected_value="rf_value"
@@ -62,7 +62,7 @@
         />
     </template>
     <!-- 複数選択 -->
-    <template v-if='props.item_info.item_type=="type_multi_select" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_multi_select" && view_mode'>
         <sw-item-parts-checkbox 
             v-model:result="rf_result"
             v-model:selected_value="rf_array"
@@ -76,11 +76,12 @@
         />
     </template>
     <!-- スイッチ -->
-    <template v-if='props.item_info.item_type=="type_switch" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_switch" && view_mode'>
         <sw-item-parts-switch
             v-model:result="rf_result"
             v-model:selected="rf_text"
             :item_subject="props.item_info.item_name"
+            :item_placeholder="props.item_info.item_placeholder"
             :item_description="props.item_info.item_description"
             :item_required="props.item_info.item_required_selected"
             :item_required_badge="props.item_info.item_required_badge"
@@ -90,7 +91,7 @@
         />
     </template>
     <!-- 日付 -->
-    <template v-if='props.item_info.item_type=="type_date" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_date" && view_mode'>
         <sw-item-parts-date
             v-model:result="rf_result"
             v-model:text="rf_text"
@@ -102,7 +103,7 @@
         />
     </template>
     <!-- 時刻 -->
-    <template v-if='props.item_info.item_type=="type_time" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_time" && view_mode'>
         <sw-item-parts-time
             v-model:result="rf_result"
             v-model:text="rf_text"
@@ -114,7 +115,7 @@
         />
     </template>
     <!-- 日時 -->
-    <template v-if='props.item_info.item_type=="type_datetime" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_datetime" && view_mode'>
         <sw-item-parts-datetime
             v-model:result="rf_result"
             v-model:text="rf_text"
@@ -126,7 +127,7 @@
         />
     </template>
     <!-- 写真 -->
-    <template v-if='props.item_info.item_type=="type_picture" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_picture" && view_mode'>
         <sw-item-parts-picture
             v-model:result="rf_result"
             v-model:picture="rf_picture"
@@ -141,7 +142,7 @@
         />
     </template>
     <!-- パスワード -->
-    <template v-if='props.item_info.item_type=="type_password" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_password" && view_mode'>
         <sw-item-parts-password
             v-model:result="rf_result"
             v-model:text="rf_text"
@@ -152,10 +153,11 @@
             :item_min_characters="props.item_info.item_min_characters"
             :item_character_type="props.item_info.item_character_type_selected"
             :item_password_view="props.item_info.item_password_view_selected"
+            :item_password_hash="props.item_info.item_password_hash_selected"
         />
     </template>
     <!-- 氏名 -->
-    <template v-if='props.item_info.item_type=="type_full_name" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_full_name" && view_mode'>
         <sw-item-parts-fullname
             v-model:result="rf_result"
             v-model:text_1="rf_text_1"
@@ -171,7 +173,7 @@
         />
     </template>
     <!-- 電話番号 -->
-    <template v-if='props.item_info.item_type=="type_phone_number" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_phone_number" && view_mode'>
         <sw-item-parts-phonenumber
             v-model:result="rf_result"
             v-model:text="rf_text"
@@ -185,7 +187,7 @@
         />
     </template>
     <!-- メールアドレス -->
-    <template v-if='props.item_info.item_type=="type_mail_address" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_mail_address" && view_mode'>
         <sw-item-parts-mailaddress
             v-model:result="rf_result"
             v-model:text="rf_text"
@@ -198,7 +200,7 @@
         />
     </template>
     <!-- プルダウン -->
-    <template v-if='props.item_info.item_type=="type_pulldown" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_pulldown" && view_mode'>
         <sw-item-parts-select
             v-model:result="rf_result"
             v-model:selected_value="rf_value"
@@ -212,7 +214,7 @@
         />
     </template>
         <!-- URL -->
-        <template v-if='props.item_info.item_type=="type_url" && rf_item_result'>
+        <template v-if='props.item_info.item_type=="type_url" && view_mode'>
         <sw-item-parts-url
             v-model:result="rf_result"
             v-model:text="rf_text"
@@ -225,7 +227,7 @@
         />
     </template>
     <!-- マークダウン -->
-    <template v-if='props.item_info.item_type=="type_markdown" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_markdown" && view_mode'>
         <sw-item-parts-markdown
             v-model:result="rf_result"
             v-model:text="rf_text"
@@ -239,7 +241,7 @@
         />
     </template>
     <!-- ラベル -->
-    <template v-if='props.item_info.item_type=="type_label" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_label" && view_mode'>
         <sw-item-parts-label
             :item_label="props.item_info.item_label"
             :item_markdown_selected="props.item_info.item_markdown_selected"
@@ -247,7 +249,7 @@
         />
     </template>
     <!-- 表 -->
-    <template v-if='props.item_info.item_type=="type_table" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_table" && view_mode'>
         <sw-item-parts-table
             v-model:result="rf_result"
             v-model:table="rf_table"
@@ -264,7 +266,7 @@
         />
     </template>
     <!-- ファイル -->
-    <template v-if='props.item_info.item_type=="type_file" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_file" && view_mode'>
         <sw-item-parts-file
             v-model:result="rf_result"
             v-model:files="rf_array"
@@ -280,7 +282,7 @@
         />
     </template>
     <!-- 手書きサイン -->
-    <template v-if='props.item_info.item_type=="type_sign" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_sign" && view_mode'>
         <sw-item-parts-canvas
             v-model:result="rf_result"
             v-model:picture="rf_picture"
@@ -293,7 +295,7 @@
         />
     </template>
     <!-- 参照リンク -->
-    <template v-if='props.item_info.item_type=="type_link" && rf_item_result'>
+    <template v-if='props.item_info.item_type=="type_link" && view_mode'>
         <sw-item-parts-link
             v-model:result="rf_result"
             v-model:picture="rf_picture"
@@ -354,7 +356,8 @@ import SwItemPartsLink from "../parts/sw-item-parts-link.vue"
 // -----------------------------------------------
 // 親コンポーネントには emits で返却する
 // カスタムエラーメッセージ
-const dm_custom = defineModel("custom",{ default: {} })
+const dm_custom = defineModel("custom",{ type: Object, default: () => {} })
+//dm_custom.value = {}
 
 // -----------------------------------------------
 // 子コンポーネントから親コンポーネントへデータを受け渡す
@@ -369,6 +372,11 @@ const props = defineProps({
         type: Object,
         required: true,
         default: null,
+    },
+    view_mode : {
+        type: Boolean,
+        required: false,
+        default: true,
     },
     demo_mode : {
         type: Boolean,

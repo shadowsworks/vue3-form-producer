@@ -27,13 +27,19 @@
             <b-col class="mx-1 px-0">{{ get_language(locale,"title_item_type_to_add") }}</b-col>
         </b-row>
         <b-row class="mx-1">
-            <b-col md="12" lg="6" class="item mx-0 px-0" v-for="(type_info) in local_item_type" v-bind:key="type_info.item_type">
-                <sw-item-type 
-                    :item_type="type_info.item_type" 
-                    :item_name="type_info.item_name" 
-                    :icon_name="type_info.icon_name" 
-                    @click_type="click_type" 
-                />
+            <b-col>
+                <b-overlay :show="rf_overlay_flag">
+                    <b-row>
+                        <b-col md="12" lg="6" class="item mx-0 px-0" v-for="(type_info) in local_item_type" v-bind:key="type_info.item_type">
+                            <sw-item-type 
+                                :item_type="type_info.item_type" 
+                                :item_name="type_info.item_name" 
+                                :icon_name="type_info.icon_name" 
+                                @click_type="click_type" 
+                            />
+                        </b-col>
+                    </b-row>
+                </b-overlay>
             </b-col>
         </b-row>
     </b-col>
@@ -154,7 +160,7 @@
 <script setup >
 import { ref,watch,computed,onBeforeMount,defineProps,defineModel } from 'vue';
 // import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { BRow,BCol,BButton,BModal,BFormTextarea } from "bootstrap-vue-next";
+import { BRow,BCol,BButton,BModal,BFormTextarea,BOverlay } from "bootstrap-vue-next";
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment-timezone';
@@ -169,7 +175,8 @@ import SwFormViewer from "../viewer/sw-form-viewer.vue"
 // -----------------------------------------------
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
-const form_info = defineModel("form_info",{ default: ()  => [] })
+const form_info = defineModel("form_info",{ type: Array, default: ()  => [] })
+//form_info.value = []
 
 // -----------------------------------------------
 // 親コンポーネントから子コンポーネントへデータを受け渡す
@@ -259,6 +266,9 @@ const local_item_type = [
   { item_type: "type_label", item_name: get_language(locale,"type_label"), icon_name: ['far','note-sticky'] },
   { item_type: "type_link", item_name: get_language(locale,"type_link"), icon_name: ['fa-solid','fa-link'] },
 ];
+
+// オーバーレイ
+const rf_overlay_flag = ref(false)
 
 // -----------------------------------------------
 // 既定計算
@@ -365,11 +375,15 @@ onBeforeMount(() => {
 // -----------------------------------------------
 // sw-item-type でボタンがクリックされた時に駆動
 const click_type = (item_type) => {
+    rf_overlay_flag.value = true
     // 編集用フォームに新しい型を追加する
     work_form_array.push(get_schema_type(item_type))
     reset_sequence_form(work_form_array);
     // 項目設定を再描画
     update_form_editor()
+    setTimeout(() => {
+        rf_overlay_flag.value = false
+    }, 300);
 }
 // sw-item-editor で入力があった時に駆動(emit駆動)
 const updated_item_info = (item_info) => {
@@ -526,7 +540,7 @@ const form_copy_to_clipboard = async () => {
     if( work_form_array.length > 0 ){
         make_output_form()
         try {
-            await navigator.clipboard.writeText(JSON.stringify(output_form_array));
+            await navigator.clipboard.writeText(JSON.stringify(output_form_array,null,2));
         } catch (err) {
             console.error('sw-form-editor:form_copy_to_clipboard:Failed to copy: ', err);
         }

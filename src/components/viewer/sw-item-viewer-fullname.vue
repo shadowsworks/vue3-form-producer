@@ -6,13 +6,13 @@
         <div :class="{ 'border-bottom': props.bottom_line }" >
             <b-row>
                 <b-col>
-                    <label class="text-secondary mt-0 mb-0 small" >{{ props.item_info.name[0] }}</label>
+                    <label class="text-black mt-0 mb-0 small" >{{ props.item_info.name[0] }}</label>
                     <div class="ms-1 me-2 mt-1 mb-0" :class="{'text-danger': !props.item_info.result}">
                         <span v-if='props.item_info.value[0]==""'>&nbsp;</span> {{ props.item_info.value[0] }}
                     </div>
                 </b-col>
                 <b-col>
-                    <label class="text-secondary mt-0 mb-0 small" >{{ props.item_info.name[1] }}</label>
+                    <label class="text-black mt-0 mb-0 small" >{{ props.item_info.name[1] }}</label>
                     <div class="ms-1 me-2 mt-1 mb-0" :class="{'text-danger': !props.item_info.result}">
                         <span v-if='props.item_info.value[1]==""'>&nbsp;</span> {{ props.item_info.value[1] }}
                     </div>

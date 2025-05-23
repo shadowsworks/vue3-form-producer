@@ -3,7 +3,7 @@
     <div v-if="rf_debug"> sw-item-viewr-text: {{ JSON.stringify(props.item_info,null,2) }} </div>
     <!-- Text -->
     <div :class="{ 'border-bottom': props.bottom_line }" >
-        <label class="text-secondary mt-0 mb-0 small" >{{ props.item_info.name }}</label>
+        <label class="text-black mt-0 mb-0 small" >{{ props.item_info.name }}</label>
         <div class="ms-0 me-2 mt-0 mb-2">
             <span v-if='props.item_info.value==null'>&nbsp;</span>
             <b-img v-if='props.item_info.value!==null' thumbnail :src="props.item_info.value" 

@@ -39,7 +39,7 @@
             </b-row>
           </div>
         </b-col>
-        <b-col cols="6">
+        <b-col cols="6" v-if="rf_debug">
           {{ rf_input_data_result }}<br>
           {{ rf_input_data_info }}
           <hr>
@@ -63,10 +63,11 @@ import SwFormInputter from "../components/inputter/sw-form-inputter.vue"
 // -----------------------------------------------
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する
 // -----------------------------------------------
+const rf_debug = ref(true)
 const rf_state_side_menu = ref(false)
 //const rf_form_info = ref()
 const rf_input_data_info = ref();
-rf_input_data_info.value = [];
+//rf_input_data_info.value = [];
 const rf_input_data_result = ref();
 rf_input_data_result.value = false;
 
@@ -77,8 +78,8 @@ const rf_inputter_comonents = ref();
 // -----------------------------------------------
 let local_input_template = InputTemplate
 //let local_item1_get_value = ""
-let local_item2_get_value = ""
-let local_item3_get_value = 0
+//let local_item2_get_value = ""
+//let local_item3_get_value = 0
 
 // -----------------------------------------------
 // 既定計算

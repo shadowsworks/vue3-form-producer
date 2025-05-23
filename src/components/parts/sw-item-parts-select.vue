@@ -8,10 +8,10 @@ const { get_language } = SwLanguage()
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: false })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // 選択値
-const dm_selected_value = defineModel("selected_value",{ default: "" })
-const dm_selected_text = defineModel("selected_text",{ default: "" })
+const dm_selected_value = defineModel("selected_value",{ type: String, default: "" })
+const dm_selected_text = defineModel("selected_text",{ type: String, default: "" })
 //
 const rf_render_key = ref(0)
 
@@ -105,7 +105,7 @@ onMounted(() => {
     //console.log("sw-item-parts-select:onMounted:item_choiced_value="+props.item_choiced_value)
     setTimeout(() => {
         rf_render_key.value = rf_render_key.value + 1
-    }, 1000);
+    }, 200);
 });
 // -----------------------------------------------
 // コンポーネントがリアクティブな状態変更により DOM ツリーを更新しようとする直前に呼び出されるフックを登録します。
@@ -139,7 +139,7 @@ onMounted(() => {
 <template>
 <div class="item-editor" >
     <!-- Text -->
-    <label class="text-secondary mt-0 mb-0 small" >{{ props.item_subject }}</label>
+    <label class="text-black mt-0 mb-0 small" >{{ props.item_subject }}</label>
     <template v-if='props.item_required && props.item_required_badge'>
         <b-badge variant="danger" class="mt-0 mb-0 ms-1">{{ get_language(locale,"selected_mandatory") }}</b-badge>
     </template>

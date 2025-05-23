@@ -4,7 +4,7 @@
     <!-- Text -->
     <template v-if='props.view_mode=="stacked"'>
         <div :class="{ 'border-bottom': props.bottom_line }" >
-            <label class="text-secondary mt-0 mb-0 small" >{{ props.item_info.name }}</label>
+            <label class="text-black mt-0 mb-0 small" >{{ props.item_info.name }}</label>
             <div class="ms-1 me-2 mt-1 mb-0" :class="{'text-danger': !props.item_info.result, 'text-end': local_text_align }">
                 <span v-if='props.item_info.value==""'>&nbsp;</span> {{ item_info_value() }} {{ props.item_info.unit }}
             </div>

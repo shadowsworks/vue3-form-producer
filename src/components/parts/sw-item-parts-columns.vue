@@ -6,11 +6,12 @@ import _ from 'lodash';
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: false })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // 選択肢入力
-const dm_columns = defineModel("columns", { type: Array, default: [] })
+const dm_columns = defineModel("columns", { type: Array, default: () => [] })
+//dm_columns.value = []
 // 選択結果
-const dm_selected = defineModel("selected",{ default: 1 })  //rf_item_choiced_number
+const dm_selected = defineModel("selected",{ type: Number, default: 1 })  //rf_item_choiced_number
 
 // -----------------------------------------------
 // 親コンポーネントから子コンポーネントへデータを受け渡す
@@ -215,18 +216,22 @@ const copy_column_data = () => {
 }
 const get_column_data = (i) => {
     let column = {}
-    let tmps = rf_columns.value[i].split("$");
-    if( tmps.length == 2 ){
-        if( tmps[0].length > 0 && tmps[1].length > 0 ){
-            column.text = tmps[1];
-            column.value = tmps[0];
+    try {
+        let tmps = rf_columns.value[i].split("$");
+        if( tmps.length == 2 ){
+            if( tmps[0].length > 0 && tmps[1].length > 0 ){
+                column.text = tmps[1];
+                column.value = tmps[0];
+            } else {
+                column.text = rf_columns.value[i];
+                column.value = rf_columns.value[i];
+            }
         } else {
             column.text = rf_columns.value[i];
             column.value = rf_columns.value[i];
         }
-    } else {
-        column.text = rf_columns.value[i];
-        column.value = rf_columns.value[i];
+    } catch ( ex ){
+        //console.log("sw-item-parts-column:get_column_data="+rf_columns.value[i])
     }
     return column;
 }
@@ -234,7 +239,7 @@ const get_column_data = (i) => {
 
 <template>
 <div class="item-editor">
-    <label class="text-secondary mt-0 mb-0 small" >{{ props.item_subject }}</label>
+    <label class="text-black mt-0 mb-0 small" >{{ props.item_subject }}</label>
     <div :key="rf_render_key">
         <div v-for="n in local_num_column" :key="n" class="mb-1"><!-- n は 1 から始まる -->
             <b-input-group>

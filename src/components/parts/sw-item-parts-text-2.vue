@@ -7,10 +7,10 @@ import validator from 'validator';
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: false })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // テキスト
-const dm_text_1 = defineModel("text_1",{ default: "" })
-const dm_text_2 = defineModel("text_2",{ default: "" })
+const dm_text_1 = defineModel("text_1",{ type: String, default: "" })
+const dm_text_2 = defineModel("text_2",{ type: String, default: "" })
 
 // -----------------------------------------------
 // 親コンポーネントから子コンポーネントへデータを受け渡す
@@ -189,7 +189,7 @@ const allowed_type = (item_allowed_type, text_value) => {
 <div class="item-editor">
     <!-- Text -->
     <b-row><b-col>
-        <label class="text-secondary mt-0 mb-0 small" >{{ props.item_subject[0] }}</label>
+        <label class="text-black mt-0 mb-0 small" >{{ props.item_subject[0] }}</label>
         <b-input-group>
             <template v-if='props.item_append_text[0]!==""' #append>
                 <b-input-group-text>{{ props.item_append_text[0] }}</b-input-group-text>
@@ -201,7 +201,7 @@ const allowed_type = (item_allowed_type, text_value) => {
         </b-input-group>
         <label v-if='props.item_description[0]!==""' class="text-secondary mt-1 mb-0 ms-1 small">{{ props.item_description[0] }}</label>
     </b-col><b-col>
-        <label class="text-secondary mt-0 mb-0 small" >{{ props.item_subject[1] }}</label>
+        <label class="text-black mt-0 mb-0 small" >{{ props.item_subject[1] }}</label>
         <b-input-group>
             <template v-if='props.item_append_text[1]!==""' #append>
                 <b-input-group-text>{{ props.item_append_text[1] }}</b-input-group-text>

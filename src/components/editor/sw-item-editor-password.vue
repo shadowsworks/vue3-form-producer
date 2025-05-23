@@ -27,9 +27,12 @@
     <sw-item-parts-number v-model:number="rf_item_min_characters" v-model:result="rf_item_min_characters_result"
             :item_subject='get_language(locale,"subject_min_characters")' :item_placeholder='get_language(locale,"placeholder_min_characters")' 
             :item_min_number=8 :item_max_number=128 item_required />
-    <!-- 含める文字 -->
+    <!-- 含める文字種 -->
     <sw-item-parts-checkbox v-model:selected_value="rf_item_character_type_selected" v-model:result="rf_item_character_type_result" item_required
             :item_subject='get_language(locale,"subject_character_type")' :item_choice_columns='local_character_type_select_columns' />
+    <!-- パスワードハッシュ化 -->
+    <sw-item-parts-radio-bool v-model:selected_value="rf_item_password_hash_selected" v-model:result="rf_item_password_hash_result"
+            :item_subject='get_language(locale,"subject_password_hash")' :item_choice_columns='local_password_hash_select_columns' />
     <!-- パスワード表示 -->
     <sw-item-parts-radio-bool v-model:selected_value="rf_item_password_view_selected" v-model:result="rf_item_password_view_result"
             :item_subject='get_language(locale,"subject_password_view")' :item_choice_columns='local_password_view_select_columns' />
@@ -51,11 +54,12 @@ import SwItemPartsRadioBool from "../parts/sw-item-parts-radio-bool.vue"
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: false })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // この項目のフォーム情報
-const dm_item_form_info = defineModel("item_form_info",{ default: {} })
+const dm_item_form_info = defineModel("item_form_info",{ type: Object, default: () => {} })
+//dm_item_form_info.value = {}
 // 条件付き表示の表示：true 非表示：false
-const dm_condition_visible = defineModel("condition_visible",{ default: false })
+const dm_condition_visible = defineModel("condition_visible",{ type: Boolean, default: false })
 // 項目名
 const rf_item_name = ref("")
 const rf_item_name_result = ref(false)
@@ -80,8 +84,11 @@ const rf_item_required_result = ref(false)
 const rf_item_min_characters = ref(8)
 const rf_item_min_characters_result = ref(false)
 // 許可する文字
-const rf_item_character_type_selected = ref([])
+const rf_item_character_type_selected = ref(() => [])
 const rf_item_character_type_result = ref(false)
+// パスワードハッシュ
+const rf_item_password_hash_selected = ref(true)
+const rf_item_password_hash_result = ref(false)
 // パスワード表示
 const rf_item_password_view_selected = ref(true)
 const rf_item_password_view_result = ref(false)
@@ -126,6 +133,11 @@ const local_character_type_select_columns = [
     { text: get_language(locale,"selected_numbers"), value: "Numeric" },
     { text: get_language(locale,"selected_symbols"), value: "Symbols" }
 ]
+// パスワードハッシュ
+const local_password_hash_select_columns = [
+    { text: get_language(locale,"selected_hash"), value: true },
+    { text: get_language(locale,"selected_not_hash"), value: false },
+]
 // パスワードボタン
 const local_password_view_select_columns = [
     { text: get_language(locale,"selected_show"), value: true },
@@ -144,15 +156,16 @@ const local_allowed_type = ["AlphaNumericPlus","All"]
 watch([ rf_item_name,rf_item_placeholder,rf_item_description,rf_item_key,
         rf_item_condition_key,rf_item_condition_value,
         rf_item_required_selected,rf_item_required_badge,
-        rf_item_min_characters,rf_item_character_type_selected,rf_item_password_view_selected ], () => {
+        rf_item_min_characters,rf_item_character_type_selected,
+        rf_item_password_hash_selected,rf_item_password_view_selected ], () => {
         //console.log("sw-item-editor-password:watch:-------")
         watch_task()
         setTimeout(() => {
             watch_task()
-        }, 500);
+        }, 100);
         setTimeout(() => {
             watch_task()
-        }, 1000);
+        }, 200);
 })
 // -----------------------------------------------
 // コンポーネントがマウントされる直前に呼び出されるフックを登録します。
@@ -173,6 +186,8 @@ onBeforeMount(() => {
         if( props.init_item_info.item_min_characters !== undefined ){ rf_item_min_characters.value = props.init_item_info.item_min_characters; }
         // 許可する文字
         if( props.init_item_info.item_character_type_selected !== undefined ){ rf_item_character_type_selected.value = props.init_item_info.item_character_type_selected; }
+        // パスワード表示
+        if( props.init_item_info.item_password_hash_selected !== undefined ){ rf_item_password_hash_selected.value = props.init_item_info.item_password_hash_selected; }
         // パスワード表示
         if( props.init_item_info.item_password_view_selected !== undefined ){ rf_item_password_view_selected.value = props.init_item_info.item_password_view_selected; }
     }
@@ -242,6 +257,7 @@ const is_result_value = () => {
         rf_item_required_result.value &&
         rf_item_min_characters_result.value &&
         rf_item_character_type_result.value &&
+        rf_item_password_hash_result.value &&
         rf_item_password_view_result.value ){
         return true
     } else {
@@ -267,6 +283,7 @@ const get_form_data = () => {
     //
     form_data.item_min_characters = Number(rf_item_min_characters.value)
     form_data.item_character_type_selected = rf_item_character_type_selected.value
+    form_data.item_password_hash_selected = rf_item_password_hash_selected.value
     form_data.item_password_view_selected = rf_item_password_view_selected.value
     //console.log("sw-item-editor-password:get_form_data="+JSON.stringify(form_data))
     return form_data

@@ -4,7 +4,7 @@
     <!-- Text -->
     <template v-if='props.view_mode=="stacked"'>
         <div :class="{ 'border-bottom': props.bottom_line }" >
-            <label class="text-secondary mt-0 mb-0 small" >{{ props.item_info.name }}</label>
+            <label class="text-black mt-0 mb-0 small" >{{ props.item_info.name }}</label>
             <div class="ms-1 me-2 mt-1 mb-0" :class="{'text-danger': !props.item_info.result}">
                 <span v-if='props.item_info.value==""'>&nbsp;</span>
                 <span v-if='props.item_info.value!==""'>{{ get_password_char() }}</span>
@@ -104,7 +104,11 @@ const rf_debug = ref(false)
 // ローカル関数
 // -----------------------------------------------
 const get_password_char = () => {
-    return "*".repeat(props.item_info.value.length)
+    let len = props.item_info.value.length
+    if( len > 8 ){
+        len = 8
+    }
+    return "*".repeat(len)
 }
 </script>
 

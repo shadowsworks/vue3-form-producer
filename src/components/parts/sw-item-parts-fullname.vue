@@ -7,10 +7,10 @@ const { get_language } = SwLanguage()
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-const dm_result = defineModel("result",{ default: false })
+const dm_result = defineModel("result",{ type: Boolean, default: false })
 // テキスト
-const dm_text_1 = defineModel("text_1",{ default: "" })
-const dm_text_2 = defineModel("text_2",{ default: "" })
+const dm_text_1 = defineModel("text_1",{ type: String, default: "" })
+const dm_text_2 = defineModel("text_2",{ type: String, default: "" })
 
 // -----------------------------------------------
 // 親コンポーネントから子コンポーネントへデータを受け渡す
@@ -154,7 +154,7 @@ const result_update = (ret) => {
 <div class="item-editor">
     <!-- Text -->
     <b-row><b-col>
-        <label class="text-secondary mt-0 mb-0 small" >{{ props.item_name_1 }}</label>
+        <label class="text-black mt-0 mb-0 small" >{{ props.item_name_1 }}</label>
         <template v-if='props.item_required && props.item_required_badge'>
             <b-badge variant="danger" class="mt-0 mb-0 ms-1">{{ get_language(locale,"selected_mandatory") }}</b-badge>
         </template>
@@ -168,7 +168,7 @@ const result_update = (ret) => {
                 :maxlength="props.item_max_length" />
         </b-input-group>
     </b-col><b-col>
-        <label class="text-secondary mt-0 mb-0 small" >{{ props.item_name_2 }}</label>
+        <label class="text-black mt-0 mb-0 small" >{{ props.item_name_2 }}</label>
         <template v-if='props.item_required && props.item_required_badge'>
             <b-badge variant="danger" class="mt-0 mb-0 ms-1">{{ get_language(locale,"selected_mandatory") }}</b-badge>
         </template>

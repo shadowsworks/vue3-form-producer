@@ -8,9 +8,9 @@ const { get_language } = SwLanguage()
 // v-modelに親コンポーネントで定義したデータ（ref/reactive）を指定する際に使用
 // -----------------------------------------------
 // 正常：true 異常：false
-//const dm_result = defineModel("result",{ default: false })
+//const dm_result = defineModel("result",{ type: Boolean, default: false })
 // 写真
-const dm_picture = defineModel("picture")
+const dm_picture = defineModel("picture",{ type: String, default: null } )
 
 // -----------------------------------------------
 // 親コンポーネントから子コンポーネントへデータを受け渡す
@@ -200,20 +200,20 @@ const item_image_clear = () => {
 }
 const drop_zone = async (event) => {
     event.preventDefault();
-    console.log("sw-item-parts-picture:drop_zone:event="+JSON.stringify(event,null,2))
+    //console.log("sw-item-parts-picture:drop_zone:event="+JSON.stringify(event,null,2))
     if( event.dataTransfer.items ) {
         // ドロップしたものがファイルでない場合は拒否する
         for( let i=0;i<event.dataTransfer.items.length;i++ ){
             let item = event.dataTransfer.items[i]
             if (item.kind === "file") {
                 let file = item.getAsFile();
-                console.log("sw-item-parts-picture:drop_zone:size="+file.size)
+                //console.log("sw-item-parts-picture:drop_zone:size="+file.size)
                 if( !file.type.match('image.*') ){
                     return
                 }
-                console.log("sw-item-parts-picture:drop_zone:file="+file.name)
+                //console.log("sw-item-parts-picture:drop_zone:file="+file.name)
                 let image_base64 = await get_base64(file);
-                console.log("sw-item-parts-picture:drop_zone:image_base64="+image_base64.length)
+                //console.log("sw-item-parts-picture:drop_zone:image_base64="+image_base64.length)
                 let image_data = await get_image_data(image_base64);
                 dm_picture.value = resize_image(image_data);
                 rf_image_preview_show.value = true;
@@ -226,7 +226,7 @@ const drop_zone = async (event) => {
 <template>
 <div class="item-editor">
     <!-- Text -->
-    <label class="text-secondary mt-0 mb-0 small" >{{ props.item_subject }}</label>
+    <label class="text-black mt-0 mb-0 small" >{{ props.item_subject }}</label>
     <template v-if='props.item_required && props.item_required_badge'>
         <b-badge variant="danger" class="mt-0 mb-0 ms-1">{{ get_language(locale,"selected_mandatory") }}</b-badge>
     </template>

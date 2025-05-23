@@ -1,7 +1,7 @@
 {
   "name": "vue3-form-producer",
-  "version": "0.2.1",
-  "update": "2025-05-16",
+  "version": "0.2.2",
+  "update": "2025-05-23",
   "private": false,
   "description": "業務アプリケーションに必要とされるフォームの作成から、フォームを使った入力画面、データ表示画面までをJSONデータで連携し、Vue.js / Bootstrap-Vue-Next でのフロントエンド開発におけるフォーム開発の生産性を飛躍的に向上するコンポーネントです。",
   "main": "dist/vue3-form-producer.umd.min.js",
@@ -53,6 +53,7 @@
     "bootstrap-icons": "^1.11.3",
     "bootstrap-vue-next": "^0.26.20",
     "core-js": "^3.8.3",
+    "crypto-js": "^4.2.0",
     "github-markdown-css": "^5.8.1",
     "lodash": "^4.17.21",
     "markdown-it": "^14.1.0",
