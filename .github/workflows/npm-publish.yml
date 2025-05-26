@@ -17,7 +17,6 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-#      - run: npm test
 
   publish-npm:
     needs: build
@@ -28,7 +27,6 @@ jobs:
         with:
           node-version: 20
           registry-url: https://github.com/shadowsworks/vue3-form-producer
-      - run: npm ci
       - run: npm run build-bundle
 #      - run: npm publish --provenance --access public
       - run: npm publish
